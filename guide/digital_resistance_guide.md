@@ -174,6 +174,39 @@ Nextcloud is a self-hosted replacement that provides:
 
 ---
 
+## "But what do we use instead of Google Docs?"
+
+The biggest fear when moving away from Big Tech is losing the tools you rely on. The reality is that open-source alternatives have caught up, and in many cases, they're better (and free). 
+
+Here is what giving up your subscriptions actually looks like:
+
+| What you have | What you get | The bonus |
+|---|---|---|
+| Google Drive / OneDrive | **Nextcloud Files** | No storage limits other than your own hard drives. |
+| Google Photos / iCloud | **Nextcloud Memories** | AI face/object recognition runs locally. Your photos never leave your house. |
+| Google Docs / Office 365 | **LibreOffice** (offline) or **Nextcloud Office** | Save the $100+ yearly Microsoft 365 subscription. |
+| Google Calendar / Contacts | **Nextcloud Calendar/Contacts** | Syncs perfectly to your iPhone or Android natively via CalDAV/CardDAV. |
+| Adobe Acrobat ($20/mo) | **Okular** or Firefox/Brave built-in | Free, offline PDF editing and signing by default. |
+| 1Password / LastPass | **Bitwarden** (self-hosted) | Enterprise-grade password management without the cloud targets. |
+| Chrome / Edge | **Brave** | Identical day-to-day feel, but blocks trackers and ads out of the box. |
+| Windows / Mac OS | **Bazzite / Linux Mint** | Free, no telemetry, no forced AI features, no ads in your start menu. |
+
+*Note: For the extremely rare Windows app that has no Linux equivalent, tools like **WinApps** let you run a contained Windows virtual machine where the app appears in a normal window on your Linux desktop — fully isolated from your real files and network.*
+
+### The App Security Tiers
+
+You do not have to be an absolutist. "Fully self-hosted or nothing" is a standard most families will fail. 
+
+You can mix and match based on this security tiering:
+
+- 🟢 **Tier 1: Fully sovereign (Best).** You use local apps (LibreOffice) and self-hosted services (Nextcloud). Zero corporate cloud involvement. Use this for your personal files, family photos, and passwords.
+- 🟡 **Tier 2: Browser-contained (Good compromise).** You still use Google Docs or Office 365 for school/work, but *only* inside a hardened browser (Brave/LibreWolf). The service knows you used it, but it cannot read your local files, cannot install background agents, and your DNS sinkhole still blocks their trackers.
+- 🔴 **Tier 3: Native App (Not recommended).** Installing Chrome, Teams, or Office directly on your machine. This gives them direct access to your filesystem and allows them to run background processes that phone home.
+
+**The pragmatic approach:** Run Tier 1 for your family's life. Run Tier 2 for the things your boss or your kid's school forces you to use. That alone is a massive win.
+
+---
+
 ## Layer 6: Endpoint Hardening — The Family Devices
 
 ### Operating System
@@ -231,13 +264,11 @@ Do these **in order** — each one is useful on its own:
 
 ## What's coming in Stage 2
 
-Stage 2 of this guide will provide:
-- **Automated deployment scripts** — run one script on your VPS and WireGuard is configured
-- **Docker Compose bundles** — deploy AdGuard + Authentik + Nextcloud with a single command
-- **OPNsense config templates** — importable baseline configurations with privacy rules pre-set
-- **LemonKaijuOS provisioning** — guided setup for families who want the full immutable OS stack
+Stage 2 of this project is a **Guided Deployment Application**. 
 
-The goal is: if you can copy-paste a command into a terminal, you can deploy this entire stack.
+The stack in this guide is effective but requires significant technical knowledge to deploy. The Stage 2 installer makes deployment feel like installing an app, not configuring a server. 
+
+It runs locally in your browser, conducts an interview about your home network, and features a local AI assistant that helps you configure the VPS, OPNsense, the Homelab, and the endpoints without you ever having to look at a terminal wall of text.
 
 ---
 
