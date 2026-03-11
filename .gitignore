@@ -1,0 +1,36 @@
+# User's local install state — never commit these
+install_config.json
+install_log.json
+network_setup_tracker.md
+
+# SSH keys
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# WireGuard configs (contain private keys)
+*.conf
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Node (for web UI)
+node_modules/
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
