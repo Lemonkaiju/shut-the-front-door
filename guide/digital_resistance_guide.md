@@ -28,6 +28,17 @@ You don't have to do everything at once. Even implementing one layer — say, ju
 
 ---
 
+## Why should you trust this?
+
+If you're trying to escape companies tracking your family, why should you trust the tools in this guide? It's a fair question. 
+
+1. **We don't sell anything.** There are no premium tiers, no subscriptions, and no hidden fees in this project. 
+2. **Nothing leaves your house.** The core principle of this setup is that *you* own the servers. The accounts, the parental controls, and the AI assistants all run locally on your own hardware. We don't have a cloud for your data to go to.
+3. **Everything is public, open-source, and auditable.** Every piece of software recommended here (from AdGuard to Bazzite to the deployment tools we wrote) is open-source. That means the code is public and constantly audited by security researchers worldwide. There are no secret backdoors.
+4. **We are just parents.** This project wasn't built by a tech startup trying to acquire users. It was built by a family trying to solve this exact problem for their own kids, and sharing the homework so you don't have to start from scratch.
+
+---
+
 ## The Threat Model — What are we actually defending against?
 
 Before setting up anything, it helps to know what you're protecting against. Here's what a normal unprotected home network looks like from the outside:
