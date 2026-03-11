@@ -4,6 +4,8 @@
 
 Shut The Front Door is a guided toolkit for parents and privacy-conscious households who want to stop being tracked, protect their kids, and own their data — without handing control to a corporation.
 
+> **Why trust this?** We don't sell anything, there are no subscriptions, and we don't have a cloud. Everything runs 100% locally on your own hardware, and every piece of software we recommend is open-source. Built by parents, for parents.
+
 ---
 
 ## What this is
