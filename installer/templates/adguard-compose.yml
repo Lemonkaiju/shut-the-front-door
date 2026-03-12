@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  adguard-home:
+    image: adguard/adguardhome:latest
+    container_name: adguard-home
+    hostname: adguard-home
+    volumes:
+      - ./adguard-work:/opt/adguardhome/work
+      - ./adguard-conf:/opt/adguardhome/conf
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "{{ web_port }}:3000/tcp"
+      - "784:784/udp"  # DNS-over-QUIC
+      - "853:853/tcp"  # DNS-over-TLS
+      - "5443:5443/tcp"  # DNS-over-HTTPS
+    environment:
+      - TZ=UTC
+    restart: unless-stopped
+    network_mode: "host"

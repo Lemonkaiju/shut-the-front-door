@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚪 Shut The Front Door! - Installer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🚪 Shut The Front Door!</h1>
+                <p class="subtitle">Privacy-Preserving Home Network Installer</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="screen active">
+                <div class="card">
+                    <h2>Welcome to Your Privacy Journey</h2>
+                    <p class="intro">
+                        This installer will help you build a state-of-the-art privacy network 
+                        for your family. No technical knowledge required.
+                    </p>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <span class="feature-icon">🛡️</span>
+                            <div>
+                                <h3>The Filter</h3>
+                                <p>Block ads and trackers on every device</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🚪</span>
+                            <div>
+                                <h3>The Front Door</h3>
+                                <p>Hide your home IP from the internet</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🏠</span>
+                            <div>
+                                <h3>Private Cloud</h3>
+                                <p>Replace Google Drive with your own secure storage</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button id="start-setup" class="btn btn-primary btn-large">
+                            Start Setup →
+                        </button>
+                        <p class="small-text">
+                            This will open a guided interview to understand your network needs
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Setup Screen -->
+            <div id="ai-setup-screen" class="screen">
+                <div class="card">
+                    <h2>AI Assistant Setup</h2>
+                    <p class="intro">
+                        To guide you through setup privately, we run an AI assistant entirely on your computer.
+                        Nothing leaves your machine.
+                    </p>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Background Setup Notice</h4>
+                        <p class="small-text" style="color: var(--text-secondary);">This downloads a language model (~4GB). If Windows Defender or your Firewall prompts you to allow <strong>"Ollama"</strong> or <strong>Python</strong>, please allow it so the AI can talk to the installer.</p>
+                    </div>
+
+                    <div class="ai-terminal-window">
+                        <div class="ai-terminal-titlebar">
+                            <div class="ai-terminal-dots">
+                                <span class="ai-terminal-dot red"></span>
+                                <span class="ai-terminal-dot yellow"></span>
+                                <span class="ai-terminal-dot green"></span>
+                            </div>
+                            <span class="ai-terminal-label">AI Provisioning</span>
+                        </div>
+                        <div class="ai-terminal-body">
+                            <div id="ai-hardware-info" class="ai-hardware-display">Checking system capabilities...</div>
+
+                            <div class="ai-step-log">
+                                <span class="ai-step-line pending" id="step-ollama">Checking AI engine (Ollama)</span>
+                                <span class="ai-step-line pending" id="step-model">Downloading language model</span>
+                                <span class="ai-step-line pending" id="step-ready">AI assistant ready</span>
+                            </div>
+
+                            <div class="ai-progress-track">
+                                <div class="ai-progress-fill" id="ai-progress-bar"></div>
+                            </div>
+                            <div id="ai-status-text" class="ai-glow-text idle">Waiting to start...</div>
+                        </div>
+                    </div>
+
+                    <div class="actions" id="ai-setup-actions">
+                        <button id="start-ai-setup" class="btn btn-primary btn-large">
+                            Set Up AI Assistant
+                        </button>
+                        <button id="skip-ai-setup" class="btn btn-secondary btn-large">
+                            Skip — Use Guided Wizard
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Setup Interview -->
+            <div id="interview-screen" class="screen">
+                <div class="card">
+                    <h2>Network Setup Interview</h2>
+                    <p class="intro">
+                        Let's configure your privacy network. I'll ask a few questions about 
+                        your current setup and what you'd like to achieve.
+                    </p>
+
+                    <div id="interview-form">
+                        <!-- Home Network -->
+                        <div class="form-section">
+                            <h3>🏡 Home Network</h3>
+                            <p>Tell me about your current network setup.</p>
+                            
+                            <div class="form-group">
+                                <label for="router-ip">Current Router IP</label>
+                                <input type="text" id="router-ip" name="router_ip" placeholder="192.168.1.1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="homelab-ip">Homelab Server IP (if you have one)</label>
+                                <input type="text" id="homelab-ip" name="homelab_ip" placeholder="192.168.1.100">
+                            </div>
+                        </div>
+
+                        <!-- VPS Configuration (Moved down, made optional) -->
+                        <div class="form-section">
+                            <h3>🌐 Cloud VPS (The Front Door) - <em>Optional</em></h3>
+                            <p>This hides your home IP address from internet providers and bypasses geographic blocks. You can skip this if you just want local privacy (Add-blocking & Firewalls) without a VPN tunnel.</p>
+                            
+                            <div class="form-group">
+                                <label for="vps-provider">VPS Provider</label>
+                                <select id="vps-provider" name="vps_provider">
+                                    <option value="">I don't need a VPS / Skip this</option>
+                                    <option value="digitalocean">DigitalOcean</option>
+                                    <option value="vultr">Vultr</option>
+                                    <option value="linode">Linode</option>
+                                    <option value="hetzner">Hetzner</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <p class="helper-links">
+                                    Get a server: 
+                                    <a href="https://digitalocean.com/?refcode=" target="_blank" rel="noopener">DigitalOcean ($200 free credit)</a>
+                                    <a href="https://www.vultr.com/?ref=" target="_blank" rel="noopener">Vultr ($100 free credit)</a>
+                                    <a href="https://www.hetzner.com/cloud" target="_blank" rel="noopener">Hetzner (~€4/month, EU)</a>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="vps-ip">VPS IP Address</label>
+                                <input type="text" id="vps-ip" name="vps_ip" placeholder="123.45.67.89">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ssh-key">SSH Key Path</label>
+                                <input type="text" id="ssh-key" name="ssh_key" placeholder="C:\Users\YourName\.ssh\id_rsa">
+                            </div>
+                        </div>
+
+                        <!-- Family Configuration -->
+                        <div class="form-section">
+                            <h3>👨‍👩‍👧‍👦 Family Setup</h3>
+                            <p>How should we configure your family accounts?</p>
+                            
+                            <div class="form-group">
+                                <label for="family-size">Number of Family Members</label>
+                                <input type="number" id="family-size" name="family_size" min="1" max="10" value="4">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="domain">Preferred Domain (local)</label>
+                                <input type="text" id="domain" name="domain" placeholder="family.local">
+                            </div>
+                        </div>
+
+                        <!-- Streaming Preferences -->
+                        <div class="form-section">
+                            <h3>📺 Streaming & Content</h3>
+                            <p>Configure how your network handles geoblocked streaming services.</p>
+                            
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="bypass_aussie" value="yes" checked disabled>
+                                    <span class="checkmark"></span>
+                                    <div>
+                                        <strong>Regional Access Optimization</strong> - Automatically route local Australian content outside the VPN (Always on so local TV works)
+                                    </div>
+                                </label>
+                                
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="bypass_global" value="yes">
+                                    <span class="checkmark"></span>
+                                    <div>
+                                        <strong>Global Streaming Breakout</strong> - Route Netflix, Amazon, and Disney+ through your local internet (Turn ON if you want the local catalog, leave OFF to use the VPN's international library)
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Hardware Provisioning -->
+                        <div class="form-section">
+                            <h3>💿 Operating System Picker</h3>
+                            <p>Which devices need a fresh OS? Click to select, then we'll help you download and flash them. <strong>Not sure? Just pick Bazzite.</strong></p>
+
+                            <!-- Tier filter pills -->
+                            <div class="os-picker-filter">
+                                <button type="button" class="os-filter-pill active" data-filter="all">All</button>
+                                <button type="button" class="os-filter-pill" data-filter="beginner">🟢 Beginner</button>
+                                <button type="button" class="os-filter-pill" data-filter="workstation">🟠 Rock Solid</button>
+                                <button type="button" class="os-filter-pill" data-filter="advanced">🔵 Advanced</button>
+                                <button type="button" class="os-filter-pill" data-filter="infra">⚙️ Infrastructure</button>
+                            </div>
+
+                            <!-- OS cards -->
+                            <div class="os-card-grid">
+
+                                <!-- Bazzite -->
+                                <label class="os-card" data-tier="beginner" for="iso-lemonkaiju">
+                                    <input type="checkbox" name="iso_needed" value="lemonkaiju" id="iso-lemonkaiju">
+                                    <div class="os-card-inner">
+                                        <div class="os-card-header">
+                                            <span class="os-tier-badge tier-beginner">Beginner ⭐</span>
+                                            <span class="os-card-size">3.8 GB</span>
+                                        </div>
+                                        <strong class="os-card-name">LemonKaijuOS (Bazzite)</strong>
+                                        <span class="os-card-tagline">Privacy-ready family OS. Just works.</span>
+                                        <p class="os-card-desc">Fedora-based, immutable, gaming-ready. Mullvad Browser and automatic updates pre-configured. Recommended for most families.</p>
+                                    </div>
+                                </label>
+
+                                <!-- Linux Mint -->
+                                <label class="os-card" data-tier="beginner" for="iso-linuxmint">
+                                    <input type="checkbox" name="iso_needed" value="linuxmint" id="iso-linuxmint">
+                                    <div class="os-card-inner">
+                                        <div class="os-card-header">
+                                            <span class="os-tier-badge tier-beginner">Beginner</span>
+                                            <span class="os-card-size">2.7 GB</span>
+                                        </div>
+                                        <strong class="os-card-name">Linux Mint 22 Cinnamon</strong>
+                                        <span class="os-card-tagline">Feels like Windows. Great for older PCs.</span>
+                                        <p class="os-card-desc">The friendliest Linux for Windows switchers. Traditional layout, huge software library, runs well on decade-old hardware.</p>
+                                    </div>
+                                </label>
+
+                                <!-- Debian -->
+                                <label class="os-card" data-tier="workstation" for="iso-debian">
+                                    <input type="checkbox" name="iso_needed" value="debian" id="iso-debian">
+                                    <div class="os-card-inner">
+                                        <div class="os-card-header">
+                                            <span class="os-tier-badge tier-workstation">Rock Solid</span>
+                                            <span class="os-card-size">3.9 GB</span>
+                                        </div>
+                                        <strong class="os-card-name">Debian 12 "Bookworm"</strong>
+                                        <span class="os-card-tagline">Set it up once. Never fight updates again.</span>
+                                        <p class="os-card-desc">Gold standard for stability. Only updates for security fixes — no disruptive feature changes. Used in hospitals, banks, and NASA.</p>
+                                    </div>
+                                </label>
+
+                                <!-- CachyOS -->
+                                <label class="os-card" data-tier="advanced" for="iso-cachyos">
+                                    <input type="checkbox" name="iso_needed" value="cachyos" id="iso-cachyos">
+                                    <div class="os-card-inner">
+                                        <div class="os-card-header">
+                                            <span class="os-tier-badge tier-advanced">Advanced</span>
+                                            <span class="os-card-size">2.8 GB</span>
+                                        </div>
+                                        <strong class="os-card-name">CachyOS</strong>
+                                        <span class="os-card-tagline">Arch, but fast and actually installable.</span>
+                                        <p class="os-card-desc">Arch-based with a performance-tuned kernel (BORE scheduler) and a one-click installer. All the power of Arch, none of the weekend-long setup.</p>
+                                    </div>
+                                </label>
+
+                                <!-- Arch -->
+                                <label class="os-card" data-tier="advanced" for="iso-arch">
+                                    <input type="checkbox" name="iso_needed" value="arch" id="iso-arch">
+                                    <div class="os-card-inner">
+                                        <div class="os-card-header">
+                                            <span class="os-tier-badge tier-expert">Expert</span>
+                                            <span class="os-card-size">1.2 GB</span>
+                                        </div>
+                                        <strong class="os-card-name">Arch Linux</strong>
+                                        <span class="os-card-tagline">Total control. RTFM required.</span>
+                                        <p class="os-card-desc">Minimal base — you build exactly what you want. Rolling release, bleeding-edge packages. The wiki is legendary. Not for the faint-hearted.</p>
+                                    </div>
+                                </label>
+
+                                <!-- OPNsense -->
+                                <label class="os-card" data-tier="infra" for="iso-opnsense">
+                                    <input type="checkbox" name="iso_needed" value="opnsense" id="iso-opnsense">
+                                    <div class="os-card-inner">
+                                        <div class="os-card-header">
+                                            <span class="os-tier-badge tier-infra">Infrastructure</span>
+                                            <span class="os-card-size">1.1 GB</span>
+                                        </div>
+                                        <strong class="os-card-name">OPNsense 24.7</strong>
+                                        <span class="os-card-tagline">The Gatekeeper firewall OS.</span>
+                                        <p class="os-card-desc">Firewall and router platform for a dedicated appliance. Powers the local breakout rules, DNS hijacking, and VPN routing.</p>
+                                    </div>
+                                </label>
+
+                                <!-- Ubuntu Server -->
+                                <label class="os-card" data-tier="infra" for="iso-ubuntu">
+                                    <input type="checkbox" name="iso_needed" value="ubuntu" id="iso-ubuntu">
+                                    <div class="os-card-inner">
+                                        <div class="os-card-header">
+                                            <span class="os-tier-badge tier-infra">Infrastructure</span>
+                                            <span class="os-card-size">2.6 GB</span>
+                                        </div>
+                                        <strong class="os-card-name">Ubuntu Server 24.04 LTS</strong>
+                                        <span class="os-card-tagline">Homelab server for Docker services.</span>
+                                        <p class="os-card-desc">Runs AdGuard Home, Authentik, Nextcloud, and WireGuard via Docker Compose. 5 years of security updates guaranteed.</p>
+                                    </div>
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <!-- Services Selection -->
+                        <div class="form-section">
+                            <h3>🔧 Choose Your Services</h3>
+                            <p>Select which privacy layers you want to deploy:</p>
+                            
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="services" value="wireguard" checked>
+                                    <span class="checkmark"></span>
+                                    <div>
+                                        <strong>The Front Door</strong> - WireGuard VPN (recommended)
+                                    </div>
+                                </label>
+                                
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="services" value="adguard" checked>
+                                    <span class="checkmark"></span>
+                                    <div>
+                                        <strong>The Filter</strong> - AdGuard Home DNS blocking
+                                    </div>
+                                </label>
+                                
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="services" value="authentik">
+                                    <span class="checkmark"></span>
+                                    <div>
+                                        <strong>Family Identity</strong> - Centralized login system
+                                    </div>
+                                </label>
+                                
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="services" value="nextcloud">
+                                    <span class="checkmark"></span>
+                                    <div>
+                                        <strong>Private Cloud</strong> - Replace Google Drive/Photos
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button id="save-config" class="btn btn-primary">
+                            Save Configuration & Continue →
+                        </button>
+                        <button id="back-welcome" class="btn btn-secondary">
+                            ← Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ISO Provisioning Screen -->
+            <div id="iso-screen" class="screen">
+                <div class="card">
+                    <h2>💿 Hardware Provisioning</h2>
+                    <p class="intro">Download OS images and flash them to a USB drive. You can skip this and come back later.</p>
+
+                    <div id="iso-list" class="iso-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <div class="form-section" id="usb-flash-section" style="display:none">
+                        <h3>🖨️ Flash to USB</h3>
+                        <p>Insert a USB drive (8GB+) and select it below. <strong>All data on the drive will be erased.</strong></p>
+
+                        <div class="usb-controls">
+                            <select id="usb-drive-select" class="usb-drive-select">
+                                <option value="">Scanning for USB drives...</option>
+                            </select>
+                            <button id="refresh-drives" class="btn btn-secondary btn-small">↺ Refresh</button>
+                        </div>
+
+                        <div class="form-group" style="margin-top: var(--spacing-md);">
+                            <label for="flash-iso-select">ISO to flash</label>
+                            <select id="flash-iso-select">
+                                <option value="">Select a downloaded ISO...</option>
+                            </select>
+                        </div>
+
+                        <button id="flash-usb-btn" class="btn btn-primary" disabled>
+                            🖨️ Launch Rufus &amp; Flash USB
+                        </button>
+                        <p class="small-text" style="margin-top: var(--spacing-sm); color: var(--text-secondary);">Rufus will open pre-loaded with your selected ISO. Follow the on-screen prompts to complete flashing.</p>
+                    </div>
+
+                    <div class="actions">
+                        <button id="iso-continue" class="btn btn-primary btn-large">Continue to Deployment →</button>
+                        <button id="back-to-interview" class="btn btn-secondary">← Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deployment Screen -->
+            <div id="deployment-screen" class="screen">
+                <div class="card">
+                    <h2>Deploying Your Privacy Network</h2>
+                    <p class="intro">
+                        I'll now deploy each service you selected. This may take 15-30 minutes 
+                        depending on your choices.
+                    </p>
+
+                    <div id="modules-list" class="modules-list">
+                        <!-- Modules will be populated by JavaScript -->
+                    </div>
+
+                    <div class="ai-assistant">
+                        <h3>🤖 AI Assistant</h3>
+                        <div id="chat-container">
+                            <div id="chat-messages" class="chat-messages">
+                                <div class="message ai-message">
+                                    Hi! I'm here to help with any questions during deployment.
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" id="chat-input" placeholder="Ask me anything...">
+                                <button id="send-chat" class="btn btn-small">Send</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button id="start-deployment" class="btn btn-primary btn-large">
+                            Start Deployment 🚀
+                        </button>
+                        <button id="back-interview" class="btn btn-secondary">
+                            ← Back to Configuration
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completion Screen -->
+            <div id="completion-screen" class="screen">
+                <div class="card">
+                    <h2>🎉 Installation Complete!</h2>
+                    <p class="intro">
+                        Your privacy network is now set up. Here's what you can do next:
+                    </p>
+
+                    <div id="completion-summary" class="completion-summary">
+                        <!-- Summary will be populated by JavaScript -->
+                    </div>
+
+                    <div class="next-steps">
+                        <h3>Next Steps</h3>
+                        <ul>
+                            <li>Configure your devices to use the new DNS settings</li>
+                            <li>Set up WireGuard VPN on your mobile devices</li>
+                            <li>Create family accounts in Authentik</li>
+                            <li>Upload your files to Nextcloud</li>
+                        </ul>
+                    </div>
+
+                    <!-- Advanced: Agentic AI Engineering -->
+                    <details class="advanced-panel">
+                        <summary class="advanced-panel-title">⚙️ Advanced: Agentic AI Engineering</summary>
+                        <div class="advanced-panel-body">
+                            <p>For technical users who want to go further and set up a local AI coding assistant (like Antigravity or Windsurf) on their privacy stack.</p>
+
+                            <h4>What is an Agentic AI?</h4>
+                            <p class="small-text">An agentic AI is an AI assistant that can autonomously read, write, and execute code on your machine. Think of it as a pair programmer that lives locally on your hardware, with no data leaving your network.</p>
+
+                            <h4>Requirements</h4>
+                            <ul class="small-text">
+                                <li><strong>Hardware:</strong> 16GB+ RAM, modern CPU (or GPU with 8GB+ VRAM)</li>
+                                <li><strong>OS:</strong> Linux (Bazzite/LemonKaijuOS recommended) or Windows with WSL2</li>
+                                <li><strong>Ollama:</strong> Already installed by the AI Setup step above</li>
+                                <li><strong>Model:</strong> <code>qwen2.5-coder:14b</code> or <code>deepseek-coder-v2:16b</code> for coding tasks</li>
+                            </ul>
+
+                            <h4>Setup Steps</h4>
+                            <ol class="small-text">
+                                <li>Ensure Ollama is running: <code>ollama serve</code></li>
+                                <li>Pull a coding model: <code>ollama pull qwen2.5-coder:14b</code></li>
+                                <li>Install <a href="https://windsurf.ai" target="_blank" rel="noopener">Windsurf IDE</a> or <a href="https://www.cursor.so" target="_blank" rel="noopener">Cursor</a></li>
+                                <li>Point the AI backend to <code>http://localhost:11434</code> (Ollama API)</li>
+                                <li>Install agent frameworks: <code>pip install langchain autogen</code></li>
+                                <li>Clone Antigravity or your preferred agent framework</li>
+                            </ol>
+
+                            <h4>Privacy Note</h4>
+                            <p class="small-text">When running a local model via Ollama, <strong>no code or prompts leave your machine</strong>. This is the only truly private AI coding assistant setup.</p>
+
+                            <h4>Recommended Models</h4>
+                            <div class="model-grid">
+                                <div class="model-card">
+                                    <strong>qwen2.5-coder:14b</strong>
+                                    <span>~9GB VRAM</span>
+                                    <span class="model-tag">Best for most users</span>
+                                </div>
+                                <div class="model-card">
+                                    <strong>deepseek-coder-v2:16b</strong>
+                                    <span>~10GB VRAM</span>
+                                    <span class="model-tag">Advanced coding</span>
+                                </div>
+                                <div class="model-card">
+                                    <strong>llama3.1:8b</strong>
+                                    <span>~5GB VRAM</span>
+                                    <span class="model-tag">Low-spec fallback</span>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <div class="actions">
+                        <button id="download-configs" class="btn btn-primary">
+                            Download Configuration Files
+                        </button>
+                        <button id="view-guide" class="btn btn-secondary">
+                            View User Guide
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Status Bar -->
+        <footer class="status-bar">
+            <div class="status-item">
+                <span class="status-indicator" id="connection-status"></span>
+                <span id="status-text">Connected</span>
+            </div>
+            <div class="status-item">
+                <span id="progress-text">Ready to start</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

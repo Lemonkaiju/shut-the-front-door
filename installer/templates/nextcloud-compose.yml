@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  nextcloud-db:
+    image: postgres:14
+    container_name: nextcloud-db
+    restart: unless-stopped
+    volumes:
+      - ./nextcloud-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD={{ db_password }}
+    networks:
+      - nextcloud
+
+  nextcloud-redis:
+    image: redis:alpine
+    container_name: nextcloud-redis
+    restart: unless-stopped
+    networks:
+      - nextcloud
+
+  nextcloud-app:
+    image: nextcloud:latest
+    container_name: nextcloud-app
+    restart: unless-stopped
+    depends_on:
+      - nextcloud-db
+      - nextcloud-redis
+    volumes:
+      - ./nextcloud-data:/var/www/html
+      - ./nextcloud-config:/var/www/html/config
+      - ./nextcloud-apps:/var/www/html/apps
+      - ./nextcloud-files:/var/www/html/data
+    environment:
+      - POSTGRES_HOST=nextcloud-db
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD={{ db_password }}
+      - REDIS_HOST=nextcloud-redis
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD={{ admin_password }}
+      - NEXTCLOUD_TRUSTED_DOMAINS={{ domain }} {{ ip }} localhost
+      - OVERWRITEPROTOCOL=http
+      - OVERWRITEHOST=nextcloud.{{ domain }}
+      - OVERWRITECLIURL=http://nextcloud.{{ domain }}
+    ports:
+      - "{{ web_port }}:80"
+    networks:
+      - nextcloud
+
+  nextcloud-cron:
+    image: nextcloud:latest
+    container_name: nextcloud-cron
+    restart: unless-stopped
+    depends_on:
+      - nextcloud-app
+    volumes:
+      - ./nextcloud-data:/var/www/html
+    entrypoint: /cron.sh
+    networks:
+      - nextcloud
+
+networks:
+  nextcloud:
+    driver: bridge

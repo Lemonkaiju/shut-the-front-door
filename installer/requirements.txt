@@ -1,0 +1,28 @@
+# Shut The Front Door! - Installer Dependencies
+# Stage 2: Guided Deployment Application
+
+# Web Framework
+Flask==3.0.0
+Flask-CORS==4.0.0
+
+# System Information
+psutil==5.9.8
+
+# Hardware Detection (optional)
+# pynvml==11.5.0  # NVIDIA GPU detection
+# GPUtil==1.4.0   # GPU detection
+
+# HTTP Requests
+requests==2.31.0
+
+# DNS Resolution (for verification)
+# dnspython==2.4.2  # Uncomment if DNS verification is needed
+
+# JSON Schema Validation (optional)
+# jsonschema==4.19.2  # Uncomment for config validation
+
+# Development Dependencies (uncomment for development)
+# pytest==7.4.3
+# pytest-flask==1.2.0
+# black==23.11.0
+# flake8==6.1.0
